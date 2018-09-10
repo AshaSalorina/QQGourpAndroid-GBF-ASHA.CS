@@ -7,12 +7,12 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
     /// <summary>
     /// 群消息接收事件
     /// </summary>
-    public class GroupMessageReceivedMahuaEventAboutMSOrder
+    public class GroupMessageReceivedMahuaEventMSOT
         : IGroupMessageReceivedMahuaEvent
     {
         private readonly IMahuaApi _mahuaApi;
 
-        public GroupMessageReceivedMahuaEventAboutMSOrder(
+        public GroupMessageReceivedMahuaEventMSOT(
             IMahuaApi mahuaApi)
         {
             _mahuaApi = mahuaApi;
@@ -21,11 +21,16 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
         public void ProcessGroupMessage(GroupMessageReceivedContext context)
         {
             // todo 填充处理逻辑
-            if (context.Message == "姬塔zaima" && context.FromQq == "670004272")
+            //throw new NotImplementedException();
+            if (context.FromQq == "670004272")
             {
                 _mahuaApi.SendGroupMessage(context.FromGroup)
-                    .At(context.FromQq)
-                    .Text("ここです！");
+                    .Text(context.Message)
+                    .Done();
+            }
+            else
+            {
+                throw new NotImplementedException();
             }
             // 不要忘记在MahuaModule中注册
         }

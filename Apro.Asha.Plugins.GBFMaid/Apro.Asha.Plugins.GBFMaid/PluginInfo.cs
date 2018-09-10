@@ -31,6 +31,6 @@ namespace Apro.Asha.Plugins.GBFMaid
         /// <summary>
         /// 插件描述
         /// </summary>
-        public string Description { get; set; } = "GBF相关功能使用(自用),powered by mahua FramWork & CQA";
+        public string Description { get; set; } = "测试版本";
     }
 }
