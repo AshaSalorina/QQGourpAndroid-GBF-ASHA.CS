@@ -1,7 +1,8 @@
 ﻿using Newbe.Mahua;
 using Newbe.Mahua.MahuaEvents;
 using System;
-using System.Timers;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
 {
@@ -11,6 +12,24 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
     public class PrivateMessageFromFriendReceivedMahuaEventMSOT
         : IPrivateMessageFromFriendReceivedMahuaEvent
     {
+        
+        //内联数据类,用于重组ms消息
+        class MsgData
+        {
+            public MsgData(string group, string msg, string time, string fq)
+            {
+                this.group = group;
+                this.msg = msg;
+                this.time = time;
+                this.fromQq = fq;
+            }
+
+            public string fromQq;
+            public string group;
+            public string msg;
+            public string time;
+        }
+        
         private readonly IMahuaApi _mahuaApi;
 
         public PrivateMessageFromFriendReceivedMahuaEventMSOT(
@@ -41,6 +60,10 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
             // 不要忘记在MahuaModule中注册
         }
 
+
+
+        Dictionary<int, Thread> threadList = new Dictionary<int, Thread>();
+
         /// <summary>
         /// 收到 “!mt qq群号 msg h:m:ID” 的消息后，启动定时任务,到达每天的h:m时发送msg消息
         /// 该任务将注册ID,注册ID重复会报出提示,预计留100条消息位
@@ -48,37 +71,51 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
         /// </summary>
         private void Mtmsg(PrivateMessageFromFriendReceivedContext context)
         {
-            try
+            var source = context;
+            var strgp = source.Message.Split(' ');
+            if (strgp.Length == 4)
             {
-                var str = context.Message;
-                var strgp = str.Split(' ');
-
                 //分割消息信息和时间
                 string group = strgp[1];
                 string msg = strgp[2];
                 //todo:需要对time进行再度分割
                 string time = strgp[3];
+                MsgData newMsg = new MsgData(group, msg, time, context.FromQq);
+                Thread thd = new Thread(MtmsgThread);
+                threadList.Add(1,thd);
+                thd.Start(newMsg);
 
-                //创建定时器
-                Timer timer = new Timer();
-                timer.Enabled = true;
-                timer.Interval = 1000;
-                //每隔一分钟判断
-                timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) =>
-                {
-                    _mahuaApi.SendGroupMessage(group)
-                        //.AtlAll()
-                        .Text(msg)
-                        .Done();
-                });
             }
-            catch (Exception)
+            else
             {
-                _mahuaApi.SendPrivateMessage(context.FromQq).Text("( ,,`･ω･´)ﾝﾝﾝ？").Done();
-            }
+                _mahuaApi.SendPrivateMessage(source.FromQq).Text("( ,,`･ω･´)ﾝﾝﾝ？").Done();
+            }           
+        }
 
+        private void MtmsgThread(object cont)
+        {
+            var source = (MsgData)cont;
+            //test mod
+
+            _mahuaApi.SendPrivateMessage(source.fromQq)
+                .Text($"创建完成,将要发送{source.msg}到群{source.group}")
+                .Done();
+
+            //test mod done
+
+            Thread.Sleep(100);
+
+            _mahuaApi.SendGroupMessage(source.group)
+                //.AtlAll()
+                .Text(source.msg)
+                .Done();
+            _mahuaApi.SendPrivateMessage(source.fromQq).Text("done").Done();
         }
 
 
+
     }
+
+
+
 }
