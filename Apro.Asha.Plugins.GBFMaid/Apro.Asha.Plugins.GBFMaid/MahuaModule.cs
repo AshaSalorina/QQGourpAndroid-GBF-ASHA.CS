@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Newbe.Mahua;
 
 namespace Apro.Asha.Plugins.GBFMaid
 {

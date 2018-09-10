@@ -1,4 +1,6 @@
-﻿namespace Apro.Asha.Plugins.GBFMaid
+﻿using Newbe.Mahua;
+
+namespace Apro.Asha.Plugins.GBFMaid
 {
     /// <summary>
     /// 本插件的基本信息
