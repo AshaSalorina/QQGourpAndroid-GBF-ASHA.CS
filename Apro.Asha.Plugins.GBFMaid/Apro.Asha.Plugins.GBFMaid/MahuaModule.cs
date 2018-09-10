@@ -48,8 +48,14 @@ namespace Apro.Asha.Plugins.GBFMaid
             {
                 base.Load(builder);
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
+
+                //注册:群消息处理
                 builder.RegisterType<GroupMessageReceivedMahuaEventMSOT>()
                     .As<IGroupMessageReceivedMahuaEvent>();
+
+                //注册:好友消息处理
+                builder.RegisterType<PrivateMessageFromFriendReceivedMahuaEventMSOT>()
+                    .As<IPrivateMessageFromFriendReceivedMahuaEvent>();
             }
         }
     }

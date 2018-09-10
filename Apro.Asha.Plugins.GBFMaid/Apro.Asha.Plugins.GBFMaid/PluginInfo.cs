@@ -8,9 +8,9 @@ namespace Apro.Asha.Plugins.GBFMaid
     public class PluginInfo : IPluginInfo
     {
         /// <summary>
-        /// 版本号，建议采用 主版本.次版本.修订号 的形式
+        /// 版本号， 主版本.次版本.修订号
         /// </summary>
-        public string Version { get; set; } = "1.0.0";
+        public string Version { get; set; } = "0.2.0";
 
         /// <summary>
         /// 插件名称

@@ -1,6 +1,7 @@
 ﻿using Newbe.Mahua;
 using Newbe.Mahua.MahuaEvents;
 using System;
+using Apro.Asha.Plugins.GBFMaid.TSaver;
 
 namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
 {
@@ -22,7 +23,18 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
         {
             // todo 填充处理逻辑
             //throw new NotImplementedException();
-            if (context.FromQq == "670004272")
+            //默认关闭的复读机,测试用
+            if (ASwitchBox.复读模式)
+            {
+                复读机(context);
+            }
+
+            // 不要忘记在MahuaModule中注册
+        }
+
+        private void 复读机(GroupMessageReceivedContext context)
+        {
+            if (context.FromQq == "670004272" || context.FromQq == "975116202")
             {
                 _mahuaApi.SendGroupMessage(context.FromGroup)
                     .Text(context.Message)
@@ -32,7 +44,7 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
             {
                 throw new NotImplementedException();
             }
-            // 不要忘记在MahuaModule中注册
         }
+
     }
 }
