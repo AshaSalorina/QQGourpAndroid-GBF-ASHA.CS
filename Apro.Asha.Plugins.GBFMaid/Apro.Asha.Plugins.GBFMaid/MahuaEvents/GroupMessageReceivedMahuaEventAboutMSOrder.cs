@@ -21,7 +21,6 @@ namespace Apro.Asha.Plugins.GBFMaid.MahuaEvents
         public void ProcessGroupMessage(GroupMessageReceivedContext context)
         {
             // todo 填充处理逻辑
-            //throw new NotImplementedException();
             if (context.Message == "姬塔zaima" && context.FromQq == "670004272")
             {
                 _mahuaApi.SendGroupMessage(context.FromGroup)

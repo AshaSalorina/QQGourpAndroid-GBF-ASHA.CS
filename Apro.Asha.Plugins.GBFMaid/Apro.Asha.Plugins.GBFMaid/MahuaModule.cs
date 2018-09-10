@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using Apro.Asha.Plugins.GBFMaid.MahuaEvents;
+using Autofac;
 using Newbe.Mahua;
+using Newbe.Mahua.MahuaEvents;
 
 namespace Apro.Asha.Plugins.GBFMaid
 {
@@ -45,6 +47,8 @@ namespace Apro.Asha.Plugins.GBFMaid
             protected override void Load(ContainerBuilder builder)
             {
                 base.Load(builder);
+                //注册群聊主响应
+                builder.RegisterType<GroupMessageReceivedMahuaEventAboutMSOrder>().As<IGroupMessageReceivedMahuaEvent>();
                 // 将需要监听的事件注册，若缺少此注册，则不会调用相关的实现类
             }
         }
