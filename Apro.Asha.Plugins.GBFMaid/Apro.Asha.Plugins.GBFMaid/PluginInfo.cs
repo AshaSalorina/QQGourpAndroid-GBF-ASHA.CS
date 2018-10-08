@@ -10,7 +10,7 @@ namespace Apro.Asha.Plugins.GBFMaid
         /// <summary>
         /// 版本号， 主版本.次版本.修订号
         /// </summary>
-        public string Version { get; set; } = "0.2.0";
+        public string Version { get; set; } = "0.2.1";
 
         /// <summary>
         /// 插件名称

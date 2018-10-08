@@ -12,12 +12,12 @@ namespace Apro.Asha.Plugins.GBFMaid
                 new MahuaMenu
                 {
                     Id = "menu1",
-                    Text = "测试菜单1"
+                    Text = "切换复读"
                 },
                 new MahuaMenu
                 {
                     Id = "menu2",
-                    Text = "测试菜单2"
+                    Text = "切换定时模式(启用多线程)"
                 },
             };
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,12 +8,16 @@ using System.Threading.Tasks;
 namespace Apro.Asha.Plugins.GBFMaid.TSaver
 {
     /// <summary>
-    /// 用于执行异步定时任务
+    /// 连接数据库的接口
     /// </summary>
-    internal interface IMsgThreadTimer
+    internal interface IDBHealper
     {
-        Task BeginClockThread();
+        IDbConnection DBConnection();
 
-        Task EndClockThread();
+        void DBRead();
+
+        void DBInsert();
+
+        void DBUpdate();
     }
 }
